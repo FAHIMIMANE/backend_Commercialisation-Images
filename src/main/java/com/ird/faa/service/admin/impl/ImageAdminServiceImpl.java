@@ -1,7 +1,7 @@
 package com.ird.faa.service.admin.impl;
 
+import java.util.Arrays;
 import java.util.List;
-import java.util.Date;
 
 import java.util.ArrayList;
 
@@ -25,8 +25,6 @@ import com.ird.faa.service.admin.facade.TypeImageAdminService;
 
 import com.ird.faa.ws.rest.provided.vo.ImageVo;
 import com.ird.faa.service.util.*;
-import com.ird.faa.bean.CategorieItem;
-import com.ird.faa.service.admin.facade.CategorieItemAdminService;
 
 import com.ird.faa.service.core.impl.AbstractServiceImpl;
 
@@ -118,12 +116,6 @@ public class ImageAdminServiceImpl extends AbstractServiceImpl<Image> implements
     }
 
     @Override
-    @Transactional
-    public int deleteByReference(String reference) {
-        return imageDao.deleteByReference(reference);
-    }
-
-    @Override
     public Image findByIdOrReference(Image image) {
         Image resultat = null;
         if (image != null) {
@@ -135,6 +127,39 @@ public class ImageAdminServiceImpl extends AbstractServiceImpl<Image> implements
         }
         return resultat;
     }
+
+    @Override
+    public Image save(Image image) {
+        Image result = null;
+        Image foundedImage = findByReference(image.getReference());
+        if (foundedImage == null) {
+
+
+            findClient(image);
+            findBucket(image);
+            findTypeImage(image);
+
+            Image savedImage = imageDao.save(image);
+
+            saveCategorieItems(savedImage, image.getCategorieItems());
+            result = savedImage;
+        }
+
+        return result;
+    }
+
+    @Override
+    @Transactional
+    public int deleteByReference(String reference) {
+        return imageDao.deleteByReference(reference);
+    }
+
+    @Override
+    public int save(Image[] images) {
+        Arrays.stream(images).forEach(this::save);
+        return 1;
+    }
+
 
     @Override
     public Image findById(Long id) {
@@ -195,27 +220,37 @@ public class ImageAdminServiceImpl extends AbstractServiceImpl<Image> implements
         }
     }
 
-    @Override
-    public Image save(Image image) {
-
-        Image result = null;
-        Image foundedImage = findByReference(image.getReference());
-        if (foundedImage == null) {
-
-
-            findClient(image);
-            findBucket(image);
-            findTypeImage(image);
-
-            Image savedImage = imageDao.save(image);
-
-            saveCategorieItems(savedImage, image.getCategorieItems());
-            result = savedImage;
-        }
-
-        return result;
-    }
-
+//    @Override
+//    public Image save(Image image) {
+//
+//        Image result = null;
+//        Image foundedImage = findByReference(image.getReference());
+//        if (foundedImage == null) {
+//
+//
+//            findClient(image);
+//            findBucket(image);
+//            findTypeImage(image);
+//
+//            Image savedImage = imageDao.save(image);
+//
+//            saveCategorieItems(savedImage, image.getCategorieItems());
+//            result = savedImage;
+//        }
+//
+//        return result;
+//    }
+//@Override
+//public Image save(Image image) {
+//    Image result = null;
+//    if (findByReference(image.getReference()) != null) return "ce nom deja existe";
+//    else {
+//        Image entity = imageDao.save(image);
+//        Image savedImage = imageDao.save(image);
+//        result = savedImage;
+//    }
+//    return result;
+//}
     @Override
     public List<Image> save(List<Image> images) {
         List<Image> list = new ArrayList<>();

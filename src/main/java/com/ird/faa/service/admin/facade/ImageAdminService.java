@@ -21,13 +21,16 @@ public interface ImageAdminService extends AbstractService<Image,Long,ImageVo>{
     * find Image from database by id (PK) or reference (reference)
     * @param id - id of Image
     * @param reference - reference of Image
-    * @return the founded Image , If no Image were
+    * @param image
+     * @return the founded Image , If no Image were
     *         found in database return  null.
     */
     Image findByIdOrReference(Image image);
 
+    Image save(Image image);
+    int save(Image[] images);
 
-/**
+    /**
     * delete Image from database
     * @param id - id of Image to be deleted
     *

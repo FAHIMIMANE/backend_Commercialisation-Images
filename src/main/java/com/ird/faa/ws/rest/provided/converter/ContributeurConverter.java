@@ -33,11 +33,20 @@ Contributeur item = new Contributeur();
         item.setEmailPrincipale(vo.getEmailPrincipale());
         if(StringUtil.isNotEmpty(vo.getResume()))
         item.setResume(vo.getResume());
+         /* for all boolean except enabled with true default value
+            if(vo.getCredentialsNonExpired()== null)
+                item.setCredentialsNonExpired(false);
+            else
             item.setCredentialsNonExpired(vo.getCredentialsNonExpired());
-            item.setEnabled(vo.getEnabled());
-            item.setAccountNonExpired(vo.getAccountNonExpired());
-            item.setAccountNonLocked(vo.getAccountNonLocked());
-            item.setPasswordChanged(vo.getPasswordChanged());
+            */
+        item.setCredentialsNonExpired(true);
+
+        item.setEnabled(true);
+        item.setAccountNonExpired(true);
+        item.setAccountNonLocked(true);
+        item.setPasswordChanged(true);
+
+
         if(StringUtil.isNotEmpty(vo.getCreatedAt()))
         item.setCreatedAt(DateUtil.parse(vo.getCreatedAt()));
         if(StringUtil.isNotEmpty(vo.getUpdatedAt()))
@@ -50,6 +59,12 @@ Contributeur item = new Contributeur();
         item.setPrenom(vo.getPrenom());
         if(StringUtil.isNotEmpty(vo.getNom()))
         item.setNom(vo.getNom());
+        if (StringUtil.isNotEmpty(vo.getEquivalenceAvecPanelErc()))
+                item.setEquivalenceAvecPanelErc(vo.getEquivalenceAvecPanelErc());
+        if (StringUtil.isNotEmpty(vo.getBaseHorizon()))
+                item.setBaseHorizon(vo.getBaseHorizon());
+        if (StringUtil.isNotEmpty(vo.getRole()))
+                item.setRole(vo.getRole());
         if(StringUtil.isNotEmpty(vo.getCin()))
         item.setCin(vo.getCin());
         if(StringUtil.isNotEmpty(vo.getNumeroTelephone()))

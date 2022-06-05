@@ -67,7 +67,7 @@ private ImageConverter imageConverter;
             @PostMapping("/")
             public ImageVo save(@RequestBody ImageVo imageVo){
             Image image = imageConverter.toItem(imageVo);
-            image = imageService.save(image);
+           image = imageService.save(image);
             return imageConverter.toVo(image);
             }
 

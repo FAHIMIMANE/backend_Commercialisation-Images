@@ -47,7 +47,5 @@ public interface ContributeurContributeurService extends AbstractService<Contrib
     int deleteByNumeroMatricule(String numeroMatricule);
 
 
-
-
-
+    Contributeur saveWithBucket(Contributeur contributeur);
 }

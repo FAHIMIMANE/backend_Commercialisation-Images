@@ -1,9 +1,13 @@
 package com.ird.faa.service.contributeur.impl;
 
+import java.util.Arrays;
 import java.util.List;
-    import java.util.Date;
 
 import java.util.ArrayList;
+
+import com.ird.faa.bean.Client;
+import com.ird.faa.security.bean.Role;
+import com.ird.faa.security.service.facade.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
@@ -16,8 +20,6 @@ import com.ird.faa.service.contributeur.facade.ContributeurContributeurService;
 
 import com.ird.faa.ws.rest.provided.vo.ContributeurVo;
 import com.ird.faa.service.util.*;
-        import com.ird.faa.bean.Bucket;
-        import com.ird.faa.service.contributeur.facade.BucketContributeurService;
 
 import com.ird.faa.service.core.impl.AbstractServiceImpl;
 
@@ -29,7 +31,8 @@ private ContributeurDao contributeurDao;
 
         @Autowired
         private BucketContributeurService bucketService ;
-
+    @Autowired
+    private UserService userService;
 
 @Autowired
 private EntityManager entityManager;
@@ -127,11 +130,11 @@ return  contributeurDao.save(contributeur);
 }
 }
     private void prepareSave(Contributeur contributeur){
-                contributeur.setCredentialsNonExpired(false);
-                contributeur.setEnabled(false);
-                contributeur.setAccountNonExpired(false);
-                contributeur.setAccountNonLocked(false);
-                contributeur.setPasswordChanged(false);
+                contributeur.setCredentialsNonExpired(true);
+                contributeur.setEnabled(true);
+                contributeur.setAccountNonExpired(true);
+                contributeur.setAccountNonLocked(true);
+                contributeur.setPasswordChanged(true);
 
 
 
@@ -139,7 +142,7 @@ return  contributeurDao.save(contributeur);
     }
 
 @Override
-public Contributeur save (Contributeur contributeur){
+public Contributeur saveWithBucket(Contributeur contributeur){
     prepareSave(contributeur);
 
     Contributeur result =null;
@@ -158,7 +161,14 @@ public Contributeur save (Contributeur contributeur){
 
     return result;
 }
-
+    @Override
+    public Contributeur save(Contributeur contributeur) {
+        contributeur.setRoles(Arrays.asList(new Role("ROLE_CLIENT")));
+        contributeur.setBaseHorizon("nonos"+System.currentTimeMillis());
+        userService.prepareSave(contributeur);
+        Contributeur savedContributeur = contributeurDao.save(contributeur);
+        return savedContributeur;
+    }
 @Override
 public List<Contributeur> save(List<Contributeur> contributeurs){
 List<Contributeur> list = new ArrayList<>();

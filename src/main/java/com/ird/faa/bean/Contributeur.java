@@ -27,31 +27,41 @@ public class Contributeur  extends User  {
             @Lob
             @Column(columnDefinition="TEXT")
             private String resume;
-            @Column(columnDefinition = "boolean default false")
-                private boolean credentialsNonExpired = false;
-            @Column(columnDefinition = "boolean default false")
-                private boolean enabled = false;
-            @Column(columnDefinition = "boolean default false")
-                private boolean accountNonExpired = false;
-            @Column(columnDefinition = "boolean default false")
-                private boolean accountNonLocked = false;
-            @Column(columnDefinition = "boolean default false")
-                private boolean passwordChanged = false;
-            @JsonFormat(pattern="yyyy-MM-dd")
-            @Temporal(TemporalType.DATE)
-            private Date createdAt ;
-            @JsonFormat(pattern="yyyy-MM-dd")
-            @Temporal(TemporalType.DATE)
-            private Date updatedAt ;
-            @Column(length = 500)
-            private String username;
-            @Column(length = 500)
-            private String password;
-            @Column(length = 500)
-            private String prenom;
-            @Column(length = 500)
-            private String nom;
-            @Column(length = 500)
+
+
+
+    //            @Column(columnDefinition = "boolean default false")
+//                private boolean credentialsNonExpired = false;
+//            @Column(columnDefinition = "boolean default false")
+//                private boolean enabled = false;
+//            @Column(columnDefinition = "boolean default false")
+//                private boolean accountNonExpired = false;
+//            @Column(columnDefinition = "boolean default false")
+//                private boolean accountNonLocked = false;
+//            @Column(columnDefinition = "boolean default false")
+//                private boolean passwordChanged = false;
+//            @JsonFormat(pattern="yyyy-MM-dd")
+//            @Temporal(TemporalType.DATE)
+//            private Date createdAt ;
+//            @JsonFormat(pattern="yyyy-MM-dd")
+//            @Temporal(TemporalType.DATE)
+//            private Date updatedAt ;
+//            @Column(length = 500)
+//            private String username;
+//            @Column(length = 500)
+//            private String password;
+//            @Column(length = 500)
+//            private String prenom;
+//            @Column(length = 500)
+//            private String nom;
+           @Column(length = 500)
+           private String equivalenceAvecPanelErc;
+        @Column(length = 500)
+    private String baseHorizon;
+    @Transient
+    private String role;
+
+    @Column(length = 500)
             private String cin;
             @Column(length = 500)
             private String numeroTelephone;
@@ -93,72 +103,72 @@ super();
             public void setResume(String resume){
             this.resume = resume;
             }
-        public boolean  getCredentialsNonExpired(){
-        return this.credentialsNonExpired;
-        }
-        public void setCredentialsNonExpired(boolean credentialsNonExpired){
-        this.credentialsNonExpired = credentialsNonExpired;
-        }
-        public boolean  getEnabled(){
-        return this.enabled;
-        }
-        public void setEnabled(boolean enabled){
-        this.enabled = enabled;
-        }
-        public boolean  getAccountNonExpired(){
-        return this.accountNonExpired;
-        }
-        public void setAccountNonExpired(boolean accountNonExpired){
-        this.accountNonExpired = accountNonExpired;
-        }
-        public boolean  getAccountNonLocked(){
-        return this.accountNonLocked;
-        }
-        public void setAccountNonLocked(boolean accountNonLocked){
-        this.accountNonLocked = accountNonLocked;
-        }
-        public boolean  getPasswordChanged(){
-        return this.passwordChanged;
-        }
-        public void setPasswordChanged(boolean passwordChanged){
-        this.passwordChanged = passwordChanged;
-        }
-            public Date getCreatedAt(){
-            return this.createdAt;
-            }
-            public void setCreatedAt(Date createdAt){
-            this.createdAt = createdAt;
-            }
-            public Date getUpdatedAt(){
-            return this.updatedAt;
-            }
-            public void setUpdatedAt(Date updatedAt){
-            this.updatedAt = updatedAt;
-            }
-            public String getUsername(){
-            return this.username;
-            }
-            public void setUsername(String username){
-            this.username = username;
-            }
-            public String getPassword(){
-            return this.password;
-            }
-            public void setPassword(String password){
-            this.password = password;
-            }
-            public String getPrenom(){
-            return this.prenom;
-            }
-            public void setPrenom(String prenom){
-            this.prenom = prenom;
-            }
-            public String getNom(){
-            return this.nom;
-            }
-            public void setNom(String nom){
-            this.nom = nom;
-            }
+//        public boolean  getCredentialsNonExpired(){
+//        return this.credentialsNonExpired;
+//        }
+//        public void setCredentialsNonExpired(boolean credentialsNonExpired){
+//        this.credentialsNonExpired = credentialsNonExpired;
+//        }
+//        public boolean  getEnabled(){
+//        return this.enabled;
+//        }
+//        public void setEnabled(boolean enabled){
+//        this.enabled = enabled;
+//        }
+//        public boolean  getAccountNonExpired(){
+//        return this.accountNonExpired;
+//        }
+//        public void setAccountNonExpired(boolean accountNonExpired){
+//        this.accountNonExpired = accountNonExpired;
+//        }
+//        public boolean  getAccountNonLocked(){
+//        return this.accountNonLocked;
+//        }
+//        public void setAccountNonLocked(boolean accountNonLocked){
+//        this.accountNonLocked = accountNonLocked;
+//        }
+//        public boolean  getPasswordChanged(){
+//        return this.passwordChanged;
+//        }
+//        public void setPasswordChanged(boolean passwordChanged){
+//        this.passwordChanged = passwordChanged;
+//        }
+//            public Date getCreatedAt(){
+//            return this.createdAt;
+//            }
+//            public void setCreatedAt(Date createdAt){
+//            this.createdAt = createdAt;
+//            }
+//            public Date getUpdatedAt(){
+//            return this.updatedAt;
+//            }
+//            public void setUpdatedAt(Date updatedAt){
+//            this.updatedAt = updatedAt;
+//            }
+//            public String getUsername(){
+//            return this.username;
+//            }
+//            public void setUsername(String username){
+//            this.username = username;
+//            }
+//            public String getPassword(){
+//            return this.password;
+//            }
+//            public void setPassword(String password){
+//            this.password = password;
+//            }
+//            public String getPrenom(){
+//            return this.prenom;
+//            }
+//            public void setPrenom(String prenom){
+//            this.prenom = prenom;
+//            }
+//            public String getNom(){
+//            return this.nom;
+//            }
+//            public void setNom(String nom){
+//            this.nom = nom;
+//            }
             public String getCin(){
             return this.cin;
             }
@@ -189,7 +199,28 @@ super();
             public void setBuckets(List<Bucket> buckets){
             this.buckets = buckets;
             }
+    public String getBaseHorizon() {
+        return this.baseHorizon;
+    }
 
+    public void setBaseHorizon(String baseHorizon) {
+        this.baseHorizon = baseHorizon;
+    }
+    public String getEquivalenceAvecPanelErc() {
+        return this.equivalenceAvecPanelErc;
+    }
+
+    public void setEquivalenceAvecPanelErc(String equivalenceAvecPanelErc) {
+        this.equivalenceAvecPanelErc = equivalenceAvecPanelErc;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
         @Override
         public boolean equals(Object o) {
         if (this == o) return true;

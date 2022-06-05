@@ -22,6 +22,16 @@ public class ContributeurVo {
     private String username ;
     private String password ;
     private String prenom ;
+    private String equivalenceAvecPanelErc ;
+
+    public String getBaseHorizon(){
+        return this.baseHorizon;
+    }
+
+
+
+    private String baseHorizon ;
+    private String role ;
     private String nom ;
     private String cin ;
     private String numeroTelephone ;
@@ -146,6 +156,23 @@ public class ContributeurVo {
         public void setNom(String nom){
         this.nom = nom;
         }
+    public String getEquivalenceAvecPanelErc(){
+        return this.equivalenceAvecPanelErc;
+    }
+
+    public void setEquivalenceAvecPanelErc(String equivalenceAvecPanelErc){
+        this.equivalenceAvecPanelErc = equivalenceAvecPanelErc;
+    }
+    public void setBaseHorizon(String baseHorizon){
+        this.baseHorizon = baseHorizon;
+    }
+    public String getRole(){
+        return this.role;
+    }
+
+    public void setRole(String role){
+        this.role = role;
+    }
         public String getCin(){
         return this.cin;
         }

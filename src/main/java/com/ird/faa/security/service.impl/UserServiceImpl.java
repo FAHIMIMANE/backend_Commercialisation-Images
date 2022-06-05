@@ -78,6 +78,29 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public void prepareSave(User user) {
+        if (user.getPassword() == null || user.getPassword().isEmpty()) {
+            user.setPassword(bCryptPasswordEncoder.encode(user.getUsername()));
+        } else {
+            user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        }
+        user.setAccountNonExpired(true);
+        user.setAccountNonLocked(true);
+        user.setCredentialsNonExpired(true);
+        user.setEnabled(true);
+        user.setPasswordChanged(false);
+        user.setCreatedAt(new Date());
+
+        if (user.getRoles() != null) {
+            Collection<Role> roles = new ArrayList<Role>();
+            for (Role role : user.getRoles()) {
+                roles.add(roleService.save(role));
+            }
+            user.setRoles(roles);
+        }
+    }
+
+    @Override
     public User save(User user) {
         User foundedUserByUsername = findByUsername(user.getUsername());
         User foundedUserByEmail = userDao.findByEmail(user.getEmail());
@@ -103,11 +126,7 @@ public class UserServiceImpl implements UserService {
                 user.setRoles(roles);
             }
             User mySaved = userDao.save(user);
-            for (Role role : user.getRoles()) {
-                if (role.getAuthority().equals("ROLE_CHERCHEUR")) {
-                    chercheurAdminService.save(transformToChercheur(user));
-                }
-            }
+
             return mySaved;
         }
     }
@@ -165,4 +184,5 @@ public class UserServiceImpl implements UserService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return findByUsernameWithRoles(username);
     }
+
 }

@@ -1,6 +1,8 @@
 package com.ird.faa.security.service.facade;
 
 import java.util.List;
+
+import com.ird.faa.bean.Client;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -28,4 +30,5 @@ public interface UserService extends UserDetailsService {
 
     public UserDetails loadUserByUsername(String username)  ;
 
+    void prepareSave(User user);
 }

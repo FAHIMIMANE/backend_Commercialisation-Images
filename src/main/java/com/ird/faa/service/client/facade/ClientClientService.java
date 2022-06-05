@@ -47,7 +47,5 @@ public interface ClientClientService extends AbstractService<Client,Long,ClientV
     int deleteByNumeroMatricule(String numeroMatricule);
 
 
-
-
-
+    Client saveWithImage(Client client);
 }

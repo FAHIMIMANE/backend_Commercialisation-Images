@@ -22,6 +22,10 @@ public class Client extends User {
         super(username);
     }
 
+//    @Id
+//    @Column(name = "id", nullable = false)
+//    private Long id;
+
     @Column(length = 500)
     private String numeroMatricule;
     @Column(length = 500)
@@ -80,6 +84,14 @@ public class Client extends User {
 
     @OneToMany(mappedBy = "client")
     private List<Image> images;
+
+//    public Long getId() {
+//        return id;
+//    }
+//
+//    public void setId(Long id) {
+//        this.id = id;
+//    }
 
     public Client() {
         super();

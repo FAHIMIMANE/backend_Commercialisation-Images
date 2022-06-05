@@ -11,6 +11,15 @@ import javax.persistence.*;
 @Table(name = "image")
 public class Image {
 
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    private  String type;
     @Id
     @SequenceGenerator(name = "image_seq", sequenceName = "image_seq",
             allocationSize = 1, initialValue = 10000)
@@ -42,6 +51,14 @@ public class Image {
         super();
     }
 
+    public Image(String reference, String type, byte[] picByte) {
+        this.reference = reference;
+        this.type = type;
+        this.picByte = picByte;
+    }
+
+    @Lob
+    private byte[] picByte;
 
     public Long getId() {
         return this.id;
@@ -131,6 +148,13 @@ public class Image {
         this.typeImage = typeImage;
     }
 
+    public byte[] getPicByte() {
+        return picByte;
+    }
+
+    public void setPicByte(byte[] picByte) {
+        this.picByte = picByte;
+    }
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

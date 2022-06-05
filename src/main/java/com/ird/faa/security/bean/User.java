@@ -4,35 +4,24 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import javax.persistence.Transient;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import org.springframework.security.core.userdetails.UserDetails;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import javax.persistence.Table;
 
 
 @Entity
 @Table(name = "user_app")
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+@Inheritance(strategy = InheritanceType.JOINED)
 public class User  implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     protected Long id;
-    protected boolean credentialsNonExpired;
-    protected boolean enabled;
+    @Column(columnDefinition = "boolean default false")
+    protected boolean credentialsNonExpired=false;
+    @Column(columnDefinition = "boolean default true")
+    protected boolean enabled=true;
     @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss.SSS")
     @Temporal(TemporalType.TIMESTAMP)
     protected Date createdAt;
@@ -40,8 +29,10 @@ public class User  implements UserDetails {
     @Temporal(TemporalType.TIMESTAMP)
     protected Date updatedAt;
     protected String email;
-    protected boolean accountNonExpired;
-    protected boolean accountNonLocked;
+    @Column(columnDefinition = "boolean default false")
+    protected boolean accountNonExpired=false;
+    @Column(columnDefinition = "boolean default false")
+    protected boolean accountNonLocked=false;
     protected String username;
     protected String password;
     protected String prenom;
