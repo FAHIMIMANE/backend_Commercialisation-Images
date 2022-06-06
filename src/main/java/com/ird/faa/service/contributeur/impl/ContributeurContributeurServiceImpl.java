@@ -33,6 +33,7 @@ private ContributeurDao contributeurDao;
         private BucketContributeurService bucketService ;
     @Autowired
     private UserService userService;
+    private EmailUtil emailUtil;
 
 @Autowired
 private EntityManager entityManager;
@@ -133,7 +134,7 @@ return  contributeurDao.save(contributeur);
                 contributeur.setCredentialsNonExpired(true);
                 contributeur.setEnabled(true);
                 contributeur.setAccountNonExpired(true);
-                contributeur.setAccountNonLocked(true);
+                contributeur.setAccountNonLocked(false);
                 contributeur.setPasswordChanged(true);
 
 
@@ -166,6 +167,7 @@ public Contributeur saveWithBucket(Contributeur contributeur){
         contributeur.setRoles(Arrays.asList(new Role("ROLE_CLIENT")));
         contributeur.setBaseHorizon("nonos"+System.currentTimeMillis());
         userService.prepareSave(contributeur);
+        emailUtil.envoyer(contributeur.getEmail());
         Contributeur savedContributeur = contributeurDao.save(contributeur);
         return savedContributeur;
     }
