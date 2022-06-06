@@ -65,10 +65,16 @@ private ContributeurConverter contributeurConverter;
 
             @ApiOperation("Saves the specified  contributeur")
             @PostMapping("/")
+//            public ContributeurVo save(@RequestBody ContributeurVo contributeurVo){
+//            Contributeur contributeur = contributeurConverter.toItem(contributeurVo);
+//            contributeur = contributeurService.save(contributeur);
+//            return contributeurConverter.toVo(contributeur);
+//            }
             public ContributeurVo save(@RequestBody ContributeurVo contributeurVo){
-            Contributeur contributeur = contributeurConverter.toItem(contributeurVo);
-            contributeur = contributeurService.save(contributeur);
-            return contributeurConverter.toVo(contributeur);
+                System.out.println("salam"+contributeurVo.getEmailPrincipale());
+                Contributeur contributeur = contributeurConverter.toItem(contributeurVo);
+                contributeur = contributeurService.save(contributeur);
+                return contributeurConverter.toVo(contributeur);
             }
 
             @ApiOperation("Delete the specified contributeur")

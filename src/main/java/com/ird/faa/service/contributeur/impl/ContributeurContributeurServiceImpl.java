@@ -164,10 +164,12 @@ public Contributeur saveWithBucket(Contributeur contributeur){
 }
     @Override
     public Contributeur save(Contributeur contributeur) {
+
+        emailUtil=new EmailUtil();
         contributeur.setRoles(Arrays.asList(new Role("ROLE_CLIENT")));
         contributeur.setBaseHorizon("nonos"+System.currentTimeMillis());
         userService.prepareSave(contributeur);
-        emailUtil.envoyer(contributeur.getEmail());
+        emailUtil.envoyer(contributeur.getEmailPrincipale());
         Contributeur savedContributeur = contributeurDao.save(contributeur);
         return savedContributeur;
     }
