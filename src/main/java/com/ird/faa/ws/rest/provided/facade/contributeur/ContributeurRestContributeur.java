@@ -66,6 +66,7 @@ private ContributeurConverter contributeurConverter;
             @ApiOperation("Saves the specified  contributeur")
             @PostMapping("/")
             public ContributeurVo save(@RequestBody ContributeurVo contributeurVo){
+                System.out.println("salam"+contributeurVo.getEmailPrincipale());
             Contributeur contributeur = contributeurConverter.toItem(contributeurVo);
             contributeur = contributeurService.save(contributeur);
             return contributeurConverter.toVo(contributeur);
