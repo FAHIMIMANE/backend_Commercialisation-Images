@@ -28,6 +28,7 @@ public class User  implements UserDetails {
     @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss.SSS")
     @Temporal(TemporalType.TIMESTAMP)
     protected Date updatedAt;
+    protected String emailPrincipale;
     protected String email;
     @Column(columnDefinition = "boolean default false")
     protected boolean accountNonExpired=false;
@@ -129,15 +130,23 @@ public class User  implements UserDetails {
             this.updatedAt = updatedAt;
         }
 
-        public String getEmail() {
-            return email;
+        public String getEmailPrincipale() {
+            return emailPrincipale;
         }
 
-        public void setEmail(String email) {
-            this.email = email;
+        public void setEmailPrincipale(String email) {
+            this.emailPrincipale = email;
         }
 
-        public boolean isAccountNonExpired() {
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public boolean isAccountNonExpired() {
             return accountNonExpired;
         }
 
