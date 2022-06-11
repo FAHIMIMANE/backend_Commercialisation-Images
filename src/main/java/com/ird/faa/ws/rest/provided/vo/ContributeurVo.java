@@ -10,7 +10,7 @@ public class ContributeurVo {
 
     private String id ;
     private String numeroMatricule ;
-    private String emailPrincipale ;
+    private String email ;
     private String resume ;
     private Boolean credentialsNonExpired ;
     private Boolean enabled ;
@@ -66,11 +66,11 @@ public class ContributeurVo {
         this.numeroMatricule = numeroMatricule;
         }
         public String getEmailPrincipale(){
-        return this.emailPrincipale;
+        return this.email;
         }
 
         public void setEmailPrincipale(String emailPrincipale){
-        this.emailPrincipale = emailPrincipale;
+        this.email = emailPrincipale;
         }
         public String getResume(){
         return this.resume;
