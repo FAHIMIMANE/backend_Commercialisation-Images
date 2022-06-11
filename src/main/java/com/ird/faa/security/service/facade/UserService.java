@@ -10,6 +10,8 @@ import com.ird.faa.security.bean.User;
 
 public interface UserService extends UserDetailsService {
 
+    void preparePassAndRole(User user);
+
     List<User> findAll();
 
     User findByUsername(String username);
@@ -17,6 +19,8 @@ public interface UserService extends UserDetailsService {
     User findById(Long id);
 
     void deleteById(Long id);
+
+    User prepare(User user);
 
     User save(User user);
 
@@ -26,9 +30,9 @@ public interface UserService extends UserDetailsService {
 
     User findByUsernameWithRoles(String username);
 
-    int  deleteByUsername(String username);
+    int deleteByUsername(String username);
 
-    public UserDetails loadUserByUsername(String username)  ;
+    public UserDetails loadUserByUsername(String username);
 
     void prepareSave(User user);
 }

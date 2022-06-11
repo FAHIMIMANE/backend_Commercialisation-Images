@@ -39,12 +39,12 @@ Contributeur item = new Contributeur();
             else
             item.setCredentialsNonExpired(vo.getCredentialsNonExpired());
             */
-        item.setCredentialsNonExpired(true);
+        item.setCredentialsNonExpired(vo.getCredentialsNonExpired()== null?false:vo.getCredentialsNonExpired());
 
-        item.setEnabled(true);
-        item.setAccountNonExpired(true);
-        item.setAccountNonLocked(true);
-        item.setPasswordChanged(true);
+        item.setEnabled(vo.getEnabled()== null?false:vo.getEnabled());
+        item.setAccountNonExpired(vo.getAccountNonExpired()== null?false:vo.getAccountNonExpired());
+        item.setAccountNonLocked(vo.getAccountNonLocked()== null?false:vo.getAccountNonLocked());
+        item.setPasswordChanged(vo.getPasswordChanged()== null?false:vo.getPasswordChanged());
 
 
         if(StringUtil.isNotEmpty(vo.getCreatedAt()))

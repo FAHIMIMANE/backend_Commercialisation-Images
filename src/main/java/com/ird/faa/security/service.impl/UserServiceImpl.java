@@ -8,9 +8,9 @@ import java.util.List;
 import com.ird.faa.bean.Chercheur;
 import com.ird.faa.service.admin.facade.ChercheurAdminService;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -101,16 +101,32 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User prepare(User user) {
+        User loadedUser = userDao.findById(user.getId()).get();
+
+
+        if (user.getUsername() != null) {
+            loadedUser.setUsername(user.getUsername());
+        }
+        if (user.getPassword() != null) {
+            loadedUser.setPassword(user.getPassword());
+        }
+
+        loadedUser.setEnabled(user.isEnabled());
+        loadedUser.setAccountNonLocked(user.isAccountNonLocked());
+        loadedUser.setAccountNonExpired(user.isAccountNonExpired());
+        loadedUser.setCredentialsNonExpired(user.isCredentialsNonExpired());
+
+        return loadedUser;
+    }
+
+    @Override
     public User save(User user) {
         User foundedUserByUsername = findByUsername(user.getUsername());
         User foundedUserByEmail = userDao.findByEmail(user.getEmail());
         if (foundedUserByUsername != null || foundedUserByEmail != null) return null;
         else {
-            if (user.getPassword() == null || user.getPassword().isEmpty()) {
-                user.setPassword(bCryptPasswordEncoder.encode(user.getUsername()));
-            } else {
-                user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-            }
+
             user.setAccountNonExpired(true);
             user.setAccountNonLocked(true);
             user.setCredentialsNonExpired(true);
@@ -118,16 +134,26 @@ public class UserServiceImpl implements UserService {
             user.setPasswordChanged(false);
             user.setCreatedAt(new Date());
 
-            if (user.getRoles() != null) {
-                Collection<Role> roles = new ArrayList<Role>();
-                for (Role role : user.getRoles()) {
-                    roles.add(roleService.save(role));
-                }
-                user.setRoles(roles);
-            }
+            preparePassAndRole(user);
             User mySaved = userDao.save(user);
 
             return mySaved;
+        }
+    }
+
+    public void preparePassAndRole(User user) {
+        if (user.getPassword() == null || user.getPassword().isEmpty()) {
+            user.setPassword(bCryptPasswordEncoder.encode(user.getUsername()));
+        } else {
+            user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        }
+
+        if (user.getRoles() != null) {
+            Collection<Role> roles = new ArrayList<Role>();
+            for (Role role : user.getRoles()) {
+                roles.add(roleService.save(role));
+            }
+            user.setRoles(roles);
         }
     }
 
