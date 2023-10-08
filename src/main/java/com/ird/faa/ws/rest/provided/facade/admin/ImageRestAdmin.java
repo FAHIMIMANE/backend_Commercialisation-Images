@@ -161,7 +161,10 @@ public class ImageRestAdmin<clientConvert, bucketConvert> {
     public int deleteByTypeImageId(@PathVariable Long id) {
         return imageService.deleteByTypeImageId(id);
     }
-
+    @GetMapping("/countImageByType/typeImage/code/{code}")
+    public Long countImageByType(@PathVariable String code) {
+        return imageService.countImageByType(code);
+    }
 
 
 

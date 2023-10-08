@@ -166,9 +166,10 @@ public class ClientClientServiceImpl extends AbstractServiceImpl<Client> impleme
 
     @Override
     public Client save(Client client) {
-        client.setRoles(Arrays.asList(new Role("ROLE_CLIENT")));
-        client.setBaseHorizon("nonos"+System.currentTimeMillis());
-        userService.prepareSave(client);
+        client.setBaseHorizon("nonos" + System.currentTimeMillis());
+        client.getRoles().clear();
+        client.getRoles().add(new Role("ROLE_CLIENT"));
+        userService.preparePassAndRole(client);
         Client savedClient = clientDao.save(client);
         return savedClient;
     }

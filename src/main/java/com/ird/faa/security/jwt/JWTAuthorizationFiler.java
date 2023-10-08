@@ -27,7 +27,7 @@ public class JWTAuthorizationFiler extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
     FilterChain filterChain) throws ServletException, IOException {
-        response.addHeader("Access-Control-Allow-Origin", "http://localhost:4200");
+        response.addHeader("Access-Control-Allow-Origin", "*");
         response.addHeader("Access-Control-Allow-Headers",
         "Origin, Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers,Authorization");
         response.addHeader("Access-Control-Allow-Methods", "DELETE, POST, GET, PUT, PATCH, OPTIONS");
@@ -48,7 +48,7 @@ public class JWTAuthorizationFiler extends OncePerRequestFilter {
             }
             JWTVerifier verifier = JWT.require(Algorithm.HMAC256(SecurityParams.SECRET)).build();
             String jwt = jwtToken.substring(SecurityParams.HEADER_PREFIX.length());
-            DecodedJWT decodedJWT = verifier.verify(jwt);
+           DecodedJWT decodedJWT = verifier.verify(jwt);
             System.out.println("JWT=" + jwt);
             String username = decodedJWT.getSubject();
             List<String> roles = decodedJWT.getClaims().get("roles").asList(String.class);
@@ -64,5 +64,7 @@ public class JWTAuthorizationFiler extends OncePerRequestFilter {
         }
 
     }
+
+
 
 }

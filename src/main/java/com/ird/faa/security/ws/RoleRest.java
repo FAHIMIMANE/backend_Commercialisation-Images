@@ -1,4 +1,4 @@
-package  com.ird.faa.security.ws.rest.provided.facade;
+package  com.ird.faa.security.ws;
 
 import java.util.List;
 

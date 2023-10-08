@@ -1,6 +1,8 @@
 package com.ird.faa.dao;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import java.util.List;
 
@@ -33,6 +35,8 @@ public interface ImageDao extends JpaRepository<Image,Long> {
     List<Image> findByTypeImageId(Long id);
 
     int deleteByTypeImageId(Long id);
+    @Query("SELECT COUNT(i.id) FROM Image i WHERE i.typeImage.code=:code")
+    public Long  countImageByType(@Param("code") String code);
 
 
 }

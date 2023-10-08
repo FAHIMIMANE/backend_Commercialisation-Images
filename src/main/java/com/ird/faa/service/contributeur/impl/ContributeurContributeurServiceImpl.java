@@ -1,12 +1,14 @@
 package com.ird.faa.service.contributeur.impl;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
 import java.util.ArrayList;
 
 import com.ird.faa.bean.Client;
 import com.ird.faa.security.bean.Role;
+import com.ird.faa.security.service.facade.RoleService;
 import com.ird.faa.security.service.facade.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,6 +37,9 @@ public class ContributeurContributeurServiceImpl extends AbstractServiceImpl<Con
     private BucketContributeurService bucketService;
     @Autowired
     private UserService userService;
+    @Autowired
+    private RoleService roleService;
+
     private EmailUtil emailUtil;
 
     @Autowired
@@ -132,15 +137,23 @@ public class ContributeurContributeurServiceImpl extends AbstractServiceImpl<Con
 
         if (foundedContributeur == null) return null;
         else {
-            userService.preparePassAndRole(contributeur);
-          //  updateAssociatedLists(contributeur);
+            Contributeur loadedContributeur = contributeurDao.save(contributeur);
+            loadedContributeur.setRoles(new ArrayList<>());
+            loadedContributeur.getRoles().add(new Role("ROLE_CONTRIBUTEUR"));
+            if (loadedContributeur.getRoles() != null) {
+                Collection<Role> roles = new ArrayList<Role>();
+                for (Role role : loadedContributeur.getRoles()) {
+                    roles.add(roleService.save(role));
+                }
+                loadedContributeur.setRoles(roles);
+            }
             return contributeurDao.save(contributeur);
         }
     }
 
     private void prepareSave(Contributeur contributeur) {
         contributeur.setCredentialsNonExpired(true);
-        contributeur.setEnabled(true);
+        contributeur.setEnabled(false);
         contributeur.setAccountNonExpired(true);
         contributeur.setAccountNonLocked(true);
         contributeur.setPasswordChanged(true);
@@ -157,6 +170,10 @@ public class ContributeurContributeurServiceImpl extends AbstractServiceImpl<Con
         Contributeur foundedContributeurByUsername = findByNumeroMatricule(contributeur.getNumeroMatricule());
         if (foundedContributeur == null && foundedContributeurByUsername == null) {
 
+            contributeur.setRoles(Arrays.asList(new Role("ROLE_CONTRIBUTEUR")));
+            contributeur.setBaseHorizon("nonos" + System.currentTimeMillis());
+            userService.prepareSave(contributeur);
+            prepareSave(contributeur);
 
             Contributeur savedContributeur = contributeurDao.save(contributeur);
 
@@ -174,7 +191,8 @@ public class ContributeurContributeurServiceImpl extends AbstractServiceImpl<Con
         contributeur.setRoles(Arrays.asList(new Role("ROLE_CONTRIBUTEUR")));
         contributeur.setBaseHorizon("nonos" + System.currentTimeMillis());
         userService.prepareSave(contributeur);
-        emailUtil.envoyer(contributeur.getEmailPrincipale());
+        prepareSave(contributeur);
+         emailUtil.envoyer(contributeur.getEmailPrincipale());
         Contributeur savedContributeur = contributeurDao.save(contributeur);
         return savedContributeur;
     }

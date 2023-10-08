@@ -57,6 +57,10 @@ public class ImageAdminServiceImpl extends AbstractServiceImpl<Image> implements
     public List<Image> findByClientNumeroMatricule(String numeroMatricule) {
         return imageDao.findByClientNumeroMatricule(numeroMatricule);
     }
+    @Override
+    public Long countImageByType(String code) {
+        return imageDao.countImageByType(code);
+    }
 
     @Override
     @Transactional

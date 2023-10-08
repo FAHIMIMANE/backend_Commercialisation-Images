@@ -1,12 +1,15 @@
 package com.ird.faa.service.admin.impl;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Date;
 
 import java.util.ArrayList;
 
+import com.ird.faa.security.bean.Role;
 import com.ird.faa.security.bean.User;
 import com.ird.faa.security.dao.UserDao;
+import com.ird.faa.security.service.facade.RoleService;
 import com.ird.faa.security.service.facade.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,6 +40,8 @@ public class ContributeurAdminServiceImpl extends AbstractServiceImpl<Contribute
     private BucketAdminService bucketService;
     @Autowired
     private UserService userService;
+    @Autowired
+    private RoleService roleService;
 
 
     @Autowired
@@ -131,11 +136,20 @@ public class ContributeurAdminServiceImpl extends AbstractServiceImpl<Contribute
     @Override
     public Contributeur update(Contributeur contributeur) {
         Contributeur foundedContributeur = findById(contributeur.getId());
+
         if (foundedContributeur == null) return null;
         else {
-            //updateAssociatedLists(contributeur);
-            User loadedUser = userService.prepare(contributeur);
-            return contributeurDao.save(contributeur);
+            Contributeur loadedContributeur = contributeurDao.save(contributeur);
+            loadedContributeur.setRoles(new ArrayList<>());
+            loadedContributeur.getRoles().add(new Role("ROLE_CONTRIBUTEUR"));
+            if (loadedContributeur.getRoles() != null) {
+                Collection<Role> roles = new ArrayList<Role>();
+                for (Role role : loadedContributeur.getRoles()) {
+                    roles.add(roleService.save(role));
+                }
+                loadedContributeur.setRoles(roles);
+            }
+            return contributeurDao.save(loadedContributeur);
         }
     }
 
@@ -148,7 +162,6 @@ public class ContributeurAdminServiceImpl extends AbstractServiceImpl<Contribute
 
 
     }
-
 
 
     @Override

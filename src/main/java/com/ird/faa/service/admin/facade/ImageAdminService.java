@@ -56,7 +56,7 @@ public interface ImageAdminService extends AbstractService<Image,Long,ImageVo>{
     List<Image> findByTypeImageId(Long id);
 
     int deleteByTypeImageId(Long id);
-
+    public Long countImageByType(String code);
 
     /**
     * delete Image from database by reference (reference)
